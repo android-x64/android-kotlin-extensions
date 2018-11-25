@@ -16,11 +16,12 @@ import kotlin.coroutines.EmptyCoroutineContext
  * ```
  */
 fun launchSilent(
+        scope: CoroutineScope = GlobalScope,
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit
 ) {
-    GlobalScope.launch(context, start, block)
+    scope.launch(context, start, block)
 }
 /**
  * Equivalent to [runBlocking] but return [Unit] instead of [T].
