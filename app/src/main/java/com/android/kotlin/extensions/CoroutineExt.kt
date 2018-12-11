@@ -38,3 +38,10 @@ fun <T> runBlockingSilent(context: CoroutineContext = EmptyCoroutineContext,
                           block: suspend CoroutineScope.() -> T) {
     runBlocking(context, block)
 }
+
+fun <T> Deferred<T>.then(scope: CoroutineScope = GlobalScope, uiFun: (T) -> Unit)
+        = launchSilent(scope) { uiFun(this@then.await()) }
+
+fun <T> CoroutineScope.asyncIO(ioFun: () -> T) = async(Dispatchers.IO) { ioFun() }
+
+fun <T> CoroutineScope.asyncIO(ioFun: () -> T, uiFun: (T) -> Unit) = asyncIO(ioFun).then(this, uiFun)
