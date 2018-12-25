@@ -46,6 +46,11 @@ fun <T> CoroutineScope.asyncIO(ioFun: () -> T) = async(Dispatchers.IO) { ioFun()
 
 fun <T> CoroutineScope.asyncIO(ioFun: () -> T, uiFun: (T) -> Unit) = asyncIO(ioFun).then(this, uiFun)
 
+fun <T> CoroutineScope.asyncIO(uiFunBefore: () -> Unit, ioFun: () -> T, uiFunAfter: (T) -> Unit) {
+    uiFunBefore()
+    asyncIO(ioFun).then(this, uiFunAfter)
+}
+
 fun <T, E> CoroutineScope.asyncIO(ioFun1: () -> T, ioFun2: () -> E, uiFun: (T, E) -> Unit) {
     val d1 = asyncIO(ioFun1)
     val d2 = asyncIO(ioFun2)
