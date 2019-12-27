@@ -1,7 +1,6 @@
 package com.android.kotlin.extensions
 
-import android.support.design.widget.Snackbar
-import android.view.View
+import java.util.*
 
 fun <T> Array<T>.resize(newSize: Int, creator: (Int) -> T): Array<T> {
     val copiedArray = Arrays.copyOf(this, newSize)
